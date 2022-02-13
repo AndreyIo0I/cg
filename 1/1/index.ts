@@ -7,15 +7,16 @@ function start() {
 	const ctx = canvas.getContext('2d')
 
 	let y1, y2, y3
-	const y1Generator = getUAMGenerator(400, -4, 0.1)()
-	const y2Generator = getUAMGenerator(400, -4, 0.1)()
-	const y3Generator = getUAMGenerator(400, -4, 0.1)()
+	const y1Generator = UAMGenerator(400, -4, 0.1)
+	const y2Generator = freezeUAMGenerator(UAMGenerator(400, -4, 0.1), 8)
+	const y3Generator = freezeUAMGenerator(UAMGenerator(400, -4, 0.1), 16)
 
 	const a1 = createA('red')
 	const a2 = createA('green')
 	const a3 = createA('blue')
 
 	requestAnimationFrame(animate)
+
 	function animate() {
 		ctx.clearRect(0, 0, 1200, 800)
 
@@ -31,22 +32,32 @@ function start() {
 	}
 }
 
-function getUAMGenerator(x0: number, vx0: number, ax: number) {
+function* freezeUAMGenerator(generator: Generator<number, number, number>, n: number): Generator<number, number, number> {
+	const frozenValue = generator.next().value
+
+	for (let i = 0; i <= n; ++i) {
+		yield frozenValue
+	}
+
+	while (true) {
+		yield generator.next().value
+	}
+}
+
+function* UAMGenerator(x0: number, vx0: number, ax: number): Generator<number, number, number> {
 	let x = x0
 	let vx = vx0
 
-	return function* () {
-		while (true) {
-			x += vx
-			vx += ax
+	while (true) {
+		x += vx
+		vx += ax
 
-			if (x >= x0) {
-				x = x0
-				vx = vx0
-			}
-
-			yield x
+		if (x >= x0) {
+			x = x0
+			vx = vx0
 		}
+
+		yield x
 	}
 }
 
@@ -78,5 +89,5 @@ function drawA(ctx: CanvasRenderingContext2D, x: number, y: number, color: strin
 	ctx.fillStyle = color
 	ctx.fill(a)
 
-	ctx.fillRect(x+ 15, y + 70, 30, 10)
+	ctx.fillRect(x + 15, y + 70, 30, 10)
 }
