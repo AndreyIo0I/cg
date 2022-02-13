@@ -5,6 +5,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default [
 	'./1/1/',
+	'./1/2/'
 ].map(projectPath => ({
 	entry: projectPath + 'index.ts',
 	mode: 'development',
