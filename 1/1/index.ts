@@ -32,7 +32,7 @@ function start() {
 	}
 }
 
-function* freezeUAMGenerator<T>(generator: Generator<T>, n: number): Generator<T> {
+function* freezeUAMGenerator(generator: Generator<number>, n: number): Generator<number> {
 	const frozenValue = generator.next().value
 
 	for (let i = 0; i <= n; ++i) {
