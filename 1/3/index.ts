@@ -53,7 +53,7 @@ function setMirroredPixels(ctx: CanvasRenderingContext2D, x0: number, x: number,
 	setPixel(ctx, x0 - y, y0 - x)
 }
 
-
+// todo проверить возможность напрямую менять пиксели
 function setPixel(ctx: CanvasRenderingContext2D, x: number, y: number) {
 	if (x > PADDING && y > PADDING && x < ctx.canvas.width - PADDING && y < ctx.canvas.height - PADDING)
 		ctx.putImageData(PIXEL, x, y)

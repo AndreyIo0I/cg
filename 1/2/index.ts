@@ -1,3 +1,4 @@
+//todo исправить привязку к верхней точке
 function useDnd(canvas: HTMLCanvasElement) {
 	canvas.style.position = 'absolute'
 	canvas.style.top = '5px'
@@ -17,7 +18,7 @@ function useDnd(canvas: HTMLCanvasElement) {
 		dnd = false
 	})
 }
-
+// todo вынести из обработчика загрузки, разбить на функции
 document.addEventListener('DOMContentLoaded', () => {
 	const canvas = document.getElementsByTagName('canvas')[0]
 	canvas.width = 220
