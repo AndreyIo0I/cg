@@ -26,10 +26,13 @@ function drawCircle(ctx: CanvasRenderingContext2D, x0: number, y0: number, r: nu
 	let x = 0
 	let y = r
 	let radiusError = 0
+	let nextRadiusError1, nextRadiusError2
 	while (y >= x) {
 		setMirroredPixels(ctx, x0, x, y0, y)
+		nextRadiusError1 = radiusError + 2 * x + 1
+		nextRadiusError2 = radiusError + 2 * (x - y + 1)
 		x++
-		if (radiusError < 0) {
+		if (Math.abs(nextRadiusError1) < Math.abs(nextRadiusError2)) {
 			radiusError += 2 * x + 1
 		}
 		else {
