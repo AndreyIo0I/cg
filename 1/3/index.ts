@@ -1,4 +1,4 @@
-import {PIXEL} from '../../src/canvas/pixel'
+import {setPixel} from '../../src/canvas/pixel'
 
 const PADDING = 100
 
@@ -43,18 +43,17 @@ function drawCircle(ctx: CanvasRenderingContext2D, x0: number, y0: number, r: nu
 }
 
 function setMirroredPixels(ctx: CanvasRenderingContext2D, x0: number, x: number, y0: number, y: number) {
-	setPixel(ctx, x0 + x, y0 + y)
-	setPixel(ctx, x0 + x, y0 - y)
-	setPixel(ctx, x0 - x, y0 + y)
-	setPixel(ctx, x0 - x, y0 - y)
-	setPixel(ctx, x0 + y, y0 + x)
-	setPixel(ctx, x0 + y, y0 - x)
-	setPixel(ctx, x0 - y, y0 + x)
-	setPixel(ctx, x0 - y, y0 - x)
+	setPixelProtected(ctx, x0 + x, y0 + y)
+	setPixelProtected(ctx, x0 + x, y0 - y)
+	setPixelProtected(ctx, x0 - x, y0 + y)
+	setPixelProtected(ctx, x0 - x, y0 - y)
+	setPixelProtected(ctx, x0 + y, y0 + x)
+	setPixelProtected(ctx, x0 + y, y0 - x)
+	setPixelProtected(ctx, x0 - y, y0 + x)
+	setPixelProtected(ctx, x0 - y, y0 - x)
 }
 
-// todo проверить возможность напрямую менять пиксели
-function setPixel(ctx: CanvasRenderingContext2D, x: number, y: number) {
+function setPixelProtected(ctx: CanvasRenderingContext2D, x: number, y: number) {
 	if (x > PADDING && y > PADDING && x < ctx.canvas.width - PADDING && y < ctx.canvas.height - PADDING)
-		ctx.putImageData(PIXEL, x, y)
+		setPixel(ctx, x, y)
 }
