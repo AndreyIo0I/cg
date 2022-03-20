@@ -21,28 +21,23 @@ function initFileDialog() {
 }
 
 function useDnd(element: HTMLElement) {
-	let dnd = {
-		x: 0,
-		y: 0,
-	}
-
 	element.style.position = 'relative'
+	element.style.left = '0'
+	element.style.top = '0'
 
-	function onMove(event: MouseEvent) {
-		element.style.left = event.x - dnd.x + 'px'
-		element.style.top = event.y - dnd.y + 'px'
-	}
-
-	element.addEventListener('mousedown', event => {
-		event.preventDefault()
-		dnd = {
-			x: event.x,
-			y: event.y,
+	element.addEventListener('mousedown', downEvent => {
+		downEvent.preventDefault()
+		const startX = downEvent.x - parseInt(element.style.left)
+		const startY = downEvent.y - parseInt(element.style.top)
+		const onMove = (event: MouseEvent) => {
+			element.style.left = event.x - startX + 'px'
+			element.style.top = event.y - startY + 'px'
 		}
+
 		element.parentElement.addEventListener('mousemove', onMove)
-	})
-	window.addEventListener('mouseup', event => {
-		element.parentElement.removeEventListener('mousemove', onMove)
+		window.addEventListener('mouseup', () => {
+			element.parentElement.removeEventListener('mousemove', onMove)
+		})
 	})
 }
 
