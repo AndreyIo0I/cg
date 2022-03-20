@@ -5,19 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
 function initFileDialog() {
 	initDialog(document.getElementById('file-button'), document.getElementById('file-dialog'))
 	const openFileButton = document.getElementById('file-open')
-	openFileButton.addEventListener('click', () => {
-		const input = document.createElement('input')
-		input.type = 'file'
-		input.accept = '.png, .jpg, .jpeg, .bmp'
-		input.click()
-		input.addEventListener('change', async () => {
-			const file = input.files[0]
-			const img = document.createElement('img')
-			img.src = URL.createObjectURL(file)
-			document.getElementById('img-container').append(img)
-			useDnd(img)
-		})
-	})
+	openFileButton.addEventListener('click', () => loadImg)
+}
+
+function loadImg() {
+	const input = document.createElement('input')
+	input.type = 'file'
+	input.accept = '.png, .jpg, .jpeg, .bmp'
+	input.click()
+	input.addEventListener('change', () => {
+		const file = input.files[0]
+		const img = document.createElement('img')
+		img.src = URL.createObjectURL(file)
+		document.getElementById('img-container').append(img)
+		useDnd(img)
+	}, {once: true})
 }
 
 function useDnd(element: HTMLElement) {
@@ -37,7 +39,7 @@ function useDnd(element: HTMLElement) {
 		element.parentElement.addEventListener('mousemove', onMove)
 		window.addEventListener('mouseup', () => {
 			element.parentElement.removeEventListener('mousemove', onMove)
-		})
+		}, {once:true})
 	})
 }
 
