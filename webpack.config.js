@@ -7,6 +7,7 @@ export default [
 	'./1/1/',
 	'./1/2/',
 	'./1/3/',
+	'./2/1/',
 ].map(projectPath => ({
 	entry: projectPath + 'index.ts',
 	mode: 'development',
