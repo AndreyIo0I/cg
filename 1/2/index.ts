@@ -1,23 +1,5 @@
-//todo исправить привязку к верхней точке
-function useDnd(canvas: HTMLCanvasElement) {
-	canvas.style.position = 'absolute'
-	canvas.style.top = '5px'
-	canvas.style.left = '5px'
+import {useDnd} from '../../src/dnd'
 
-	let dnd = false
-	canvas.addEventListener('mousedown', event => {
-		dnd = true
-	})
-	document.addEventListener('mousemove', event => {
-		if (dnd) {
-			canvas.style.top = event.y + 'px'
-			canvas.style.left = event.x + 'px'
-		}
-	})
-	document.addEventListener('mouseup', event => {
-		dnd = false
-	})
-}
 // todo вынести из обработчика загрузки, разбить на функции
 document.addEventListener('DOMContentLoaded', () => {
 	const canvas = document.getElementsByTagName('canvas')[0]
