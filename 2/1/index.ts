@@ -10,6 +10,11 @@ function initFileDialog() {
 	openFileButton.addEventListener('click', loadImg)
 }
 
+function initDialog(button: HTMLElement, dialog: HTMLElement) {
+	button.addEventListener('click', () => dialog.classList.toggle('hide'))
+	dialog.addEventListener('focusout', () => dialog.classList.toggle('hide'))
+}
+
 function loadImg() {
 	const input = document.createElement('input')
 	input.type = 'file'
@@ -22,9 +27,4 @@ function loadImg() {
 		document.getElementById('img-container').append(img)
 		useDnd(img)
 	}, {once: true})
-}
-
-function initDialog(button: HTMLElement, dialog: HTMLElement) {
-	button.addEventListener('click', () => dialog.classList.toggle('hide'))
-	dialog.addEventListener('focusout', () => dialog.classList.toggle('hide'))
 }
