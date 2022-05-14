@@ -1,15 +1,31 @@
 import path from 'path'
 import {fileURLToPath} from 'url'
+import * as fs from 'fs'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-export default [
-	'./1/1/',
-	'./1/2/',
-	'./1/3/',
-	'./2/1/',
-].map(projectPath => ({
-	entry: projectPath + 'index.ts',
+function isLabDirName(name) {
+	return name.match(/\d+/)
+}
+
+const labs = fs.readdirSync(__dirname)
+	.map(fileName => path.join(fileName))
+	.filter(fileName => fs.statSync(fileName).isDirectory())
+	.filter(fileName => isLabDirName(path.basename(fileName)))
+	.flatMap(labPath =>
+		fs.readdirSync(labPath)
+			.map(fileName => path.join(labPath, fileName))
+			.filter(taskPath => fs.statSync(taskPath).isDirectory())
+			.filter(taskPath => isLabDirName(path.basename(taskPath)))
+			.filter(taskPath => fs.readdirSync(taskPath).includes('index.ts'))
+	)
+	.map(labPath => './' + labPath)
+
+console.log('======================labs======================')
+console.log(labs)
+
+export default labs.map(projectPath => ({
+	entry: projectPath + '/index.ts',
 	mode: 'development',
 	module: {
 		rules: [
