@@ -28,3 +28,5 @@ function loadImg() {
 		useDnd(img)
 	}, {once: true})
 }
+
+export {}

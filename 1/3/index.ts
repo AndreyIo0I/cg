@@ -57,3 +57,5 @@ function setPixelProtected(ctx: CanvasRenderingContext2D, x: number, y: number) 
 	if (x > PADDING && y > PADDING && x < ctx.canvas.width - PADDING && y < ctx.canvas.height - PADDING)
 		setPixel(ctx, x, y)
 }
+
+export {}

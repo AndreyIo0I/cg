@@ -90,3 +90,5 @@ function drawWindow(ctx: CanvasRenderingContext2D, x: number, y: number) {
 	ctx.lineTo(x + 15, y + 30)
 	ctx.stroke()
 }
+
+export {}

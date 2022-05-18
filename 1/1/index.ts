@@ -91,3 +91,5 @@ function drawA(ctx: CanvasRenderingContext2D, x: number, y: number, color: strin
 
 	ctx.fillRect(x + 15, y + 70, 30, 10)
 }
+
+export {}

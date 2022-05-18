@@ -19,13 +19,12 @@ const labs = fs.readdirSync(__dirname)
 			.filter(taskPath => isLabDirName(path.basename(taskPath)))
 			.filter(taskPath => fs.readdirSync(taskPath).includes('index.ts'))
 	)
-	.map(labPath => './' + labPath)
 
 console.log('======================labs======================')
 console.log(labs)
 
 export default labs.map(projectPath => ({
-	entry: projectPath + '/index.ts',
+	entry: `./${projectPath}/index.ts`,
 	mode: 'development',
 	module: {
 		rules: [
