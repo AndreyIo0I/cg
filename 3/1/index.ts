@@ -46,11 +46,11 @@ async function main() {
 		const invT = 1 - t
 		const invT2 = invT * invT
 		const invT3 = invT2 * invT
-		const getPointComponent = (i: number) => controlPoints[0][i] * invT3 +
+		const scalarFn = (i: number) => controlPoints[0][i] * invT3 +
 			controlPoints[1][i] * 3 * t * invT2 +
 			controlPoints[2][i] * 3 * invT * t * t +
 			controlPoints[3][i] * t * t * t
-		const nextP = [getPointComponent(0), getPointComponent(1)]
+		const nextP = [scalarFn(0), scalarFn(1)]
 
 		painter.drawLine(prevP[0], prevP[1], nextP[0], nextP[1])
 		prevP = nextP
