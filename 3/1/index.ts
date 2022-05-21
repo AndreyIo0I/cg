@@ -1,17 +1,32 @@
-import {Painter} from './src/Painter'
-import {createProgram} from './src/createProgram'
+import {Painter} from '../../src/webgl/Painter'
+import {mat4} from 'gl-matrix'
 
 document.addEventListener('DOMContentLoaded', main)
 
 async function main() {
 	const canvas = document.createElement('canvas')
 	document.body.append(canvas)
-	canvas.width = 1920
-	canvas.height = 961
-	const gl = canvas.getContext('webgl2')
-	const program = await createProgram(gl, 'src/vertex.glsl', 'src/fragment.glsl')
+	const painter = await Painter.create(canvas)
 
-	const painter = new Painter(canvas, gl, program)
+	let timeout: any
+	const resizeObserver = new ResizeObserver(() => {
+		clearTimeout(timeout)
+		timeout = setTimeout(() => {
+			painter.updateViewport()
+			draw(painter)
+		}, 100)
+	})
+	resizeObserver.observe(canvas)
+
+	const render = () => {
+		painter.updateViewport()
+		draw(painter)
+	}
+	requestAnimationFrame(render)
+}
+
+function draw(painter: Painter) {
+	painter.clear()
 
 	painter.drawLine(961, 0, -961, 0)
 	painter.drawLine(961, 0, 921, 20)
@@ -42,7 +57,7 @@ async function main() {
 	 *     P4 * t^3
 	 */
 	let prevP = controlPoints[0]
-	for (let t = 0.01; t <= 1; t += 0.01) {
+	for (let t = 0; t <= 1.01; t += 0.01) {
 		const invT = 1 - t
 		const invT2 = invT * invT
 		const invT3 = invT2 * invT
@@ -52,7 +67,7 @@ async function main() {
 			controlPoints[3][i] * t * t * t
 		const nextP = [scalarFn(0), scalarFn(1)]
 
-		painter.drawLine(prevP[0], prevP[1], nextP[0], nextP[1])
+		painter.drawLine(prevP[0], prevP[1], nextP[0], nextP[1], [0.4, 0.6, 0.4, 1])
 		prevP = nextP
 	}
 }
