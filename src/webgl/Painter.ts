@@ -56,17 +56,36 @@ class Painter {
 		this.gl.drawArrays(this.gl.POINTS, 0, 1)
 	}
 
-	public drawTriangle(points: [number, number, number, number, number, number], color: [number, number, number, number] = [0.1, 0.1, 0.1, 1]) {
+	public drawTriangle(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, color: [number, number, number, number] = [0.1, 0.1, 0.1, 1]) {
 		this.setColor(color)
 
-		this.setPositions(points)
+		this.setPositions([x1, y1, x2, y2, x3, y3])
 
 		this.gl.drawArrays(this.gl.TRIANGLES, 0, 3)
 	}
 
-	public drawRect(points: [number, number, number, number], color: [number, number, number, number] = [0.1, 0.1, 0.1, 1]) {
-		this.drawTriangle([points[0], points[1], points[2], points[1], points[0], points[3]], color)
-		this.drawTriangle([points[2], points[3], points[2], points[1], points[0], points[3]], color)
+	public drawRect(x1: number, y1: number, x2: number, y2: number, color: [number, number, number, number] = [0.1, 0.1, 0.1, 1]) {
+		this.drawTriangle(x1, y1, x2, y1, x1, y2, color)
+		this.drawTriangle(x2, y2, x2, y1, x1, y2, color)
+	}
+
+	public drawCircle(cx: number, cy: number, r: number, color: [number, number, number, number] = [0.1, 0.1, 0.1, 1]) {
+		this.drawEllipse(cx, cy, r, r, color)
+	}
+
+	public drawEllipse(cx: number, cy: number, rx: number, ry: number, color: [number, number, number, number] = [0.1, 0.1, 0.1, 1]) {
+		const numVerts = 100
+		for (let i = 0; i < numVerts; i++) {
+			this.drawTriangle(
+				cx,
+				cy,
+				cx + rx * Math.cos(Math.PI * 2 * i / numVerts),
+				cy + ry * Math.sin(Math.PI * 2 * i / numVerts),
+				cx + rx * Math.cos(Math.PI * 2 * (i + 1) / numVerts),
+				cy + ry * Math.sin(Math.PI * 2 * (i + 1) / numVerts),
+				color,
+			)
+		}
 	}
 
 	public clear() {
@@ -112,4 +131,8 @@ class Painter {
 
 export {
 	Painter,
+}
+
+export type {
+	Color,
 }
