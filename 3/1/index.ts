@@ -1,28 +1,11 @@
 import {Painter} from '../../src/webgl/Painter'
-import {mat4} from 'gl-matrix'
 
 document.addEventListener('DOMContentLoaded', main)
 
 async function main() {
 	const canvas = document.createElement('canvas')
 	document.body.append(canvas)
-	const painter = await Painter.create(canvas)
-
-	let timeout: any
-	const resizeObserver = new ResizeObserver(() => {
-		clearTimeout(timeout)
-		timeout = setTimeout(() => {
-			painter.updateViewport()
-			draw(painter)
-		}, 100)
-	})
-	resizeObserver.observe(canvas)
-
-	const render = () => {
-		painter.updateViewport()
-		draw(painter)
-	}
-	requestAnimationFrame(render)
+	await Painter.create(canvas, draw)
 }
 
 function draw(painter: Painter) {

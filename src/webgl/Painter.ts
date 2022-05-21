@@ -1,4 +1,4 @@
-import {mat4, vec3, vec4} from 'gl-matrix'
+import {mat4, vec3} from 'gl-matrix'
 import {createProgram} from './createProgram'
 
 type Color = [number, number, number, number]
@@ -7,20 +7,32 @@ class Painter {
 	private readonly canvas: HTMLCanvasElement
 	private readonly gl: WebGL2RenderingContext
 	private readonly program: WebGLProgram
+	private readonly render: (painter: Painter) => void
 	private globalMatrix: mat4 = mat4.create()
 
-	static async create(canvas: HTMLCanvasElement) {
+	static async create(canvas: HTMLCanvasElement, render: (painter: Painter) => void) {
 		const gl = canvas.getContext('webgl2')
 		const program = await createProgram(gl, '../../src/webgl/vertex.glsl', '../../src/webgl/fragment.glsl')
 
-		return new Painter(canvas, gl, program)
+		return new Painter(canvas, program, render)
 	}
 
-	private constructor(canvas: HTMLCanvasElement, gl: WebGL2RenderingContext, program: WebGLProgram) {
+	private constructor(canvas: HTMLCanvasElement, program: WebGLProgram, render: (painter: Painter) => void) {
 		this.canvas = canvas
-		this.gl = gl
 		this.program = program
+		this.render = render
+		this.gl = canvas.getContext('webgl2')
 		this.gl.useProgram(this.program)
+
+		let timeout: any
+		const resizeObserver = new ResizeObserver(() => {
+			clearTimeout(timeout)
+			timeout = setTimeout(() => {
+				this.updateViewport()
+				this.render(this)
+			}, 100)
+		})
+		resizeObserver.observe(canvas)
 	}
 
 	public drawLine(x1: number, y1: number, x2: number, y2: number, color: Color = [0.1, 0.1, 0.1, 1]) {
