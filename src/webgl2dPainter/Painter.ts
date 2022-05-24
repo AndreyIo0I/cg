@@ -12,7 +12,7 @@ class Painter {
 
 	static async create(canvas: HTMLCanvasElement, render: (painter: Painter) => void) {
 		const gl = canvas.getContext('webgl2')
-		const program = await createProgram(gl, '../../src/webgl/vertex.glsl', '../../src/webgl/fragment.glsl')
+		const program = await createProgram(gl, '../../src/webgl2dPainter/vertex.glsl', '../../src/webgl2dPainter/fragment.glsl')
 
 		return new Painter(canvas, program, render)
 	}

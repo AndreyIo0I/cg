@@ -1,4 +1,4 @@
-import {Color, Painter} from '../../src/webgl/Painter'
+import {Color, Painter} from '../../src/webgl2dPainter/Painter'
 
 document.addEventListener('DOMContentLoaded', main)
 
