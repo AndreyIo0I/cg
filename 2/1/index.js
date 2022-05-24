@@ -20,23 +20,23 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _src
 
 /***/ }),
 
-/***/ "./src/clamp.ts":
-/*!**********************!*\
-  !*** ./src/clamp.ts ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"clamp\": () => (/* binding */ clamp)\n/* harmony export */ });\nfunction clamp(x, min, max) {\r\n    return Math.max(min, Math.min(x, max));\r\n}\r\n\n\n//# sourceURL=webpack://cg/./src/clamp.ts?");
-
-/***/ }),
-
 /***/ "./src/dnd.ts":
 /*!********************!*\
   !*** ./src/dnd.ts ***!
   \********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"useDnd\": () => (/* binding */ useDnd)\n/* harmony export */ });\n/* harmony import */ var _clamp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./clamp */ \"./src/clamp.ts\");\n\r\nfunction useDnd(element) {\r\n    element.style.position = 'relative';\r\n    element.style.left = '0';\r\n    element.style.top = '0';\r\n    element.addEventListener('mousedown', downEvent => {\r\n        downEvent.preventDefault();\r\n        const startX = downEvent.x - parseInt(element.style.left);\r\n        const startY = downEvent.y - parseInt(element.style.top);\r\n        const onMove = (event) => {\r\n            const newLeft = (0,_clamp__WEBPACK_IMPORTED_MODULE_0__.clamp)(event.x - startX, 0, element.parentElement.clientWidth - element.clientWidth);\r\n            const newTop = (0,_clamp__WEBPACK_IMPORTED_MODULE_0__.clamp)(event.y - startY, 0, element.parentElement.clientHeight - element.clientHeight);\r\n            element.style.left = newLeft + 'px';\r\n            element.style.top = newTop + 'px';\r\n        };\r\n        element.parentElement.addEventListener('mousemove', onMove);\r\n        window.addEventListener('mouseup', () => {\r\n            element.parentElement.removeEventListener('mousemove', onMove);\r\n        }, { once: true });\r\n    });\r\n}\r\n\n\n//# sourceURL=webpack://cg/./src/dnd.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"useDnd\": () => (/* binding */ useDnd)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ \"./src/utils.ts\");\n\r\nfunction useDnd(element) {\r\n    element.style.position = 'relative';\r\n    element.style.left = '0';\r\n    element.style.top = '0';\r\n    element.addEventListener('mousedown', downEvent => {\r\n        downEvent.preventDefault();\r\n        const startX = downEvent.x - parseInt(element.style.left);\r\n        const startY = downEvent.y - parseInt(element.style.top);\r\n        const onMove = (event) => {\r\n            const newLeft = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.clamp)(event.x - startX, 0, element.parentElement.clientWidth - element.clientWidth);\r\n            const newTop = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.clamp)(event.y - startY, 0, element.parentElement.clientHeight - element.clientHeight);\r\n            element.style.left = newLeft + 'px';\r\n            element.style.top = newTop + 'px';\r\n        };\r\n        element.parentElement.addEventListener('mousemove', onMove);\r\n        window.addEventListener('mouseup', () => {\r\n            element.parentElement.removeEventListener('mousemove', onMove);\r\n        }, { once: true });\r\n    });\r\n}\r\n\n\n//# sourceURL=webpack://cg/./src/dnd.ts?");
+
+/***/ }),
+
+/***/ "./src/utils.ts":
+/*!**********************!*\
+  !*** ./src/utils.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"clamp\": () => (/* binding */ clamp),\n/* harmony export */   \"radToDeg\": () => (/* binding */ radToDeg),\n/* harmony export */   \"degToRad\": () => (/* binding */ degToRad)\n/* harmony export */ });\nfunction clamp(x, min, max) {\r\n    return Math.max(min, Math.min(x, max));\r\n}\r\nfunction radToDeg(r) {\r\n    return r * 180 / Math.PI;\r\n}\r\nfunction degToRad(d) {\r\n    return d * Math.PI / 180;\r\n}\r\n\r\n\n\n//# sourceURL=webpack://cg/./src/utils.ts?");
 
 /***/ })
 

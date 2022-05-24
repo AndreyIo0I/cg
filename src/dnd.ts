@@ -1,4 +1,4 @@
-import {clamp} from './clamp'
+import {clamp} from './utils'
 
 export function useDnd(element: HTMLElement) {
 	element.style.position = 'relative'
