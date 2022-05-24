@@ -9,6 +9,7 @@ async function main() {
 
 	const gl = canvas.getContext('webgl2')
 	const program = await createProgram(gl, 'vertex.glsl', 'fragment.glsl')
+	gl.useProgram(program)
 
 	const positionAttributeLocation = gl.getAttribLocation(program, 'a_position')
 	const colorAttributeLocation = gl.getAttribLocation(program, 'a_color')
@@ -16,9 +17,6 @@ async function main() {
 	const matrixLocation = gl.getUniformLocation(program, 'u_matrix')
 
 	const positionBuffer = gl.createBuffer()
-
-	const vao = gl.createVertexArray()
-	gl.bindVertexArray(vao)
 
 	gl.enableVertexAttribArray(positionAttributeLocation)
 	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
@@ -52,15 +50,12 @@ async function main() {
 		gl.enable(gl.DEPTH_TEST)
 		gl.enable(gl.CULL_FACE)
 
-		gl.useProgram(program)
-		gl.bindVertexArray(vao)
-
 		const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight
 		const projectionMatrix = mat4.perspective(mat4.create(), degToRad(90), aspect, 1, 2000)
 
 		const viewMatrix = mat4.lookAt(
 			mat4.create(),
-			vec3.fromValues(0, 0, 200),
+			vec3.fromValues(100, 100, 400),
 			vec3.fromValues(0, 0, 0),
 			vec3.fromValues(0, 1, 0),
 		)
@@ -68,15 +63,19 @@ async function main() {
 
 		gl.uniformMatrix4fv(matrixLocation, false, viewProjectionMatrix)
 
-		gl.drawArrays(gl.TRIANGLES, 0, 3)
+		gl.drawArrays(gl.TRIANGLES, 0, 6)
 	}
 }
 
 function setGeometry(gl: WebGL2RenderingContext) {
 	const positions = new Float32Array([
-		100, 0, 0,
-		0, 100, 0,
-		-100, 0, 0,
+		0, 0, 0,
+		150, 0, 0,
+		0, 200, 0,
+
+		0, 0, 0,
+		0, 200, 0,
+		0, 0, 150,
 	])
 
 	gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW)
@@ -86,11 +85,16 @@ function setColors(gl: WebGL2RenderingContext) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Uint8Array([
-			40, 20, 80,
-			40, 20, 80,
-			40, 20, 80,
+			160, 160, 160,
+			160, 160, 160,
+			160, 160, 160,
+
+			160, 160, 160,
+			160, 160, 160,
+			160, 160, 160,
 		]),
-		gl.STATIC_DRAW)
+		gl.STATIC_DRAW,
+	)
 }
 
 export {}
