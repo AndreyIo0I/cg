@@ -8,7 +8,6 @@ class Painter {
 	private readonly gl: WebGL2RenderingContext
 	private readonly program: WebGLProgram
 	private readonly render: (painter: Painter) => void
-	private globalMatrix: mat4 = mat4.create()
 
 	static async create(canvas: HTMLCanvasElement, render: (painter: Painter) => void) {
 		const gl = canvas.getContext('webgl2')
@@ -101,14 +100,15 @@ class Painter {
 		this.canvas.height = height
 		this.gl.viewport(0, 0, width, height)
 
-		mat4.ortho(this.globalMatrix, -1920, 1920, -961, 961, -1, 1)
+		const matrix = mat4.create()
+		mat4.ortho(matrix, -1920, 1920, -961, 961, -1, 1)
 		const scale = Math.min(this.canvas.width / 1920, this.canvas.height / 961)
 		const scaleX = 1920 / this.canvas.width
 		const scaleY = 961 / this.canvas.height
-		mat4.scale(this.globalMatrix, this.globalMatrix, vec3.fromValues(scaleX * scale, scaleY * scale, 1))
+		mat4.scale(matrix, matrix, vec3.fromValues(scaleX * scale, scaleY * scale, 1))
 
 		const matrixUniform = this.gl.getUniformLocation(this.program, 'u_matrix')
-		this.gl.uniformMatrix4fv(matrixUniform, false, this.globalMatrix)
+		this.gl.uniformMatrix4fv(matrixUniform, false, matrix)
 
 		return [width, height]
 	}

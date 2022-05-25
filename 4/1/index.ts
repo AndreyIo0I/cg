@@ -30,6 +30,13 @@ async function main() {
 	gl.enableVertexAttribArray(colorAttributeLocation)
 	gl.vertexAttribPointer(colorAttributeLocation, 3, gl.UNSIGNED_BYTE, true, 0, 0)
 
+	const cameraPos = vec3.fromValues(0, 0, 400)
+	canvas.addEventListener('mousemove', event => {
+		vec3.rotateY(cameraPos, cameraPos, vec3.fromValues(0, 0, 0), degToRad(event.movementX * 0.4))
+		vec3.rotateX(cameraPos, cameraPos, vec3.fromValues(0, 0, 0), degToRad(event.movementY * 0.4))
+		drawScene()
+	})
+
 	drawScene()
 
 	function drawScene() {
@@ -48,10 +55,11 @@ async function main() {
 
 		const viewMatrix = mat4.lookAt(
 			mat4.create(),
-			vec3.fromValues(0, 0, 400),
+			cameraPos,
 			vec3.fromValues(0, 0, 0),
 			vec3.fromValues(0, 1, 0),
 		)
+
 		const viewProjectionMatrix = mat4.multiply(mat4.create(), projectionMatrix, viewMatrix)
 
 		gl.uniformMatrix4fv(matrixLocation, false, viewProjectionMatrix)

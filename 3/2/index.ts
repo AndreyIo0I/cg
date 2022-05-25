@@ -11,6 +11,7 @@ async function main() {
 const red: Color = [0.8, 0.2, 0.5, 1]
 const purple: Color = [0.3, 0.2, 0.4, 1]
 
+// вынести, создать второго ежа другого размера
 function draw(painter: Painter) {
 	painter.clear()
 

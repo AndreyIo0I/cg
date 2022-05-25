@@ -8,6 +8,7 @@ async function main() {
 	await Painter.create(canvas, draw)
 }
 
+// разбить
 function draw(painter: Painter) {
 	painter.clear()
 
@@ -32,6 +33,7 @@ function draw(painter: Painter) {
 	]
 	controlPoints.forEach(point => painter.drawPoint(point[0], point[1]))
 
+	// вынести, создать вторую
 	/**
 	 * invT = (1 - t)
 	 * P = P1 * invT^3 +
